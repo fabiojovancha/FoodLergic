@@ -8,7 +8,7 @@ dotenv.config();
 
 // Inisialisasi aplikasi
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 
 // Middleware
 app.use(cors());
