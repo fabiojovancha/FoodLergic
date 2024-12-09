@@ -3,7 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
-const scanRoutes = require("./routes/scanRoutes"); // Impor scanRoutes untuk rute pemindaian makanan
+const allergyRoutes= require("./routes/allergyRoutes"); // Impor scanRoutes untuk rute pemindaian makanan
 
 dotenv.config();
 
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 // Gunakan rute dari authRoutes, userRoutes, dan scanRoutes
 app.use("/api/auth", authRoutes);  // Rute autentikasi
 app.use("/api/user", userRoutes);  // Rute pengguna
-app.use("/api/scan", scanRoutes);   // Integrasi scanRoutes untuk pemindaian makanan
+app.use("/api/allergy", allergyRoutes);   // Integrasi scanRoutes untuk pemindaian makanan
 
 // Jalankan server
 app.listen(PORT, () => {

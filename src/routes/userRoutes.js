@@ -1,28 +1,13 @@
 const express = require("express");
 const {
-  getUserProfile,
-  updateUserProfile,
-  updateUserPassword,
-  addAllergy,
-  removeAllergy,
-  findUserById,
+  getUserById,getUsers,addUser,deleteUserById
 } = require("../controllers/userController");
 
 const router = express.Router();
+router.post("/users", addUser);
 
-// Melihat profil user
-router.get("/:id", findUserById, getUserProfile);
+// Rute untuk mendapatkan daftar pengguna
+router.get("/users", getUsers);
 
-// Memperbarui data profil
-router.put("/:id", findUserById, updateUserProfile);
-
-// Mengubah password
-router.put("/:id/password", findUserById, updateUserPassword);
-
-// Menambah alergi
-router.post("/:id/allergies", findUserById, addAllergy);
-
-// Menghapus alergi
-router.delete("/:id/allergies", findUserById, removeAllergy);
 
 module.exports = router;
