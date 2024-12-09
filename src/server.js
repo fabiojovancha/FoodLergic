@@ -3,13 +3,12 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
+const scanRoutes = require("./routes/scanRoutes"); // Impor scanRoutes untuk rute pemindaian makanan
 
-// Konfigurasi environment variables
 dotenv.config();
 
-// Inisialisasi aplikasi
 const app = express();
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 
 // Middleware
 app.use(cors());
@@ -20,9 +19,10 @@ app.get("/", (req, res) => {
     res.send("Welcome to the API! Use /api/auth for authentication.");
 });
 
-// Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/user", userRoutes);
+// Gunakan rute dari authRoutes, userRoutes, dan scanRoutes
+app.use("/api/auth", authRoutes);  // Rute autentikasi
+app.use("/api/user", userRoutes);  // Rute pengguna
+app.use("/api/scan", scanRoutes);   // Integrasi scanRoutes untuk pemindaian makanan
 
 // Jalankan server
 app.listen(PORT, () => {
