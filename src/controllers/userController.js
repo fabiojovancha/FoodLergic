@@ -53,7 +53,7 @@ const db = require("../services/simpanData");
     }
 };
   
-  const getUserById = async (req, res) => {
+const getUserById = async (req, res) => {
     try {
         const { userId } = req.body
 
@@ -61,16 +61,13 @@ const db = require("../services/simpanData");
             return res.status(400).json({ message: "User ID is required" });
         }
 
-        // Referensi dokumen pengguna
         const userDocRef = db.collection("users").doc(userId);
         const userDoc = await userDocRef.get();
 
-        // Periksa apakah dokumen pengguna ada
         if (!userDoc.exists) {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Ambil data pengguna
         const userData = { id: userDoc.id, ...userDoc.data() };
 
         res.status(200).json(userData);
@@ -80,10 +77,50 @@ const db = require("../services/simpanData");
     }
 };
 
+const updateUser = async (req, res) => {
+    try {
+        const { userId } = req.body; 
+        const { username, email, allergies } = req.body; 
+
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required" });
+        }
+
+        const updatedData = {};
+        if (username) updatedData.username = username;
+        if (email) updatedData.email = email;
+        if (allergies) updatedData.allergies = allergies;
+
+        if (Object.keys(updatedData).length === 0) {
+            return res.status(400).json({ message: "No valid fields to update" });
+        }
+
+        const userDocRef = db.collection("users").doc(userId);
+
+        const userDoc = await userDocRef.get();
+        if (!userDoc.exists) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        await userDocRef.update(updatedData);
+
+        const updatedUser = { id: userDoc.id, ...updatedData };
+
+        res.status(200).json({
+            message: "User updated successfully",
+            data: updatedUser,
+        });
+    } catch (error) {
+        console.error("Error updating user:", error);
+        res.status(500).json({ message: "Failed to update user", error: error.message });
+    }
+};
   
-  module.exports = {
+module.exports = {
     addUser,
     getUsers,
     getUserById,
-  };
+    updateUser,
+};
+ 
   

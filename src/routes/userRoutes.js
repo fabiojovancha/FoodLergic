@@ -1,13 +1,13 @@
 const express = require("express");
 const {
-  getUserById,getUsers,addUser,deleteUserById
+  getUserById,addUser,getUsers,updateUser
 } = require("../controllers/userController");
 
 const router = express.Router();
-router.post("/users", addUser);
+router.post("/addUser", addUser);
 
 // Rute untuk mendapatkan daftar pengguna
-router.get("/users", getUsers);
-
+router.get("/getUser/:userId", getUserById);
+router.put("/updateUser/:userId", updateUser);
 
 module.exports = router;

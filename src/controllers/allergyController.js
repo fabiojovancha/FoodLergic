@@ -89,7 +89,7 @@ const addUserAllergy = async (req, res) => {
 
         // Buat objek alergi baru dengan ID unik
         const newAllergy = {
-            id: uuidv4(), // Membuat ID unik
+            id: crypto.randomUUID(), // Membuat ID unik
             name: allergy,
         };
 
