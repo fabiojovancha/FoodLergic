@@ -61,13 +61,18 @@ const updateUserAllergies = async (req, res) => {
 //     }
 // };
 
-const addUserAllergy = async (req, res) => {
+// Fungsi untuk menambahkan beberapa alergi sekaligus
+const addUserAllergies = async (req, res) => {
     try {
-        const { userId, allergy } = req.body;
+        const { userId, allergies } = req.body;
 
         // Validasi input
-        if (!userId || !allergy) {
-            return res.status(400).json({ message: "User ID and allergy name are required" });
+        if (!userId || !Array.isArray(allergies)) {
+            return res.status(400).json({ message: "User ID and a list of allergies are required" });
+        }
+
+        if (allergies.length > 5) {
+            return res.status(400).json({ message: "You can only add up to 5 allergies at a time" });
         }
 
         // Referensi dokumen pengguna
@@ -82,34 +87,34 @@ const addUserAllergy = async (req, res) => {
         const userData = userDoc.data();
         const existingAllergies = userData.allergies || [];
 
-        // Periksa apakah alergi sudah ada berdasarkan nama
-        const isAllergyExists = existingAllergies.some((a) => a.name === allergy);
-        if (isAllergyExists) {
-            return res.status(400).json({ message: "Allergy already added" });
+        // Filter alergi baru yang belum ada
+        const newAllergies = allergies
+            .filter((allergy) => !existingAllergies.some((a) => a.name === allergy))
+            .map((allergy) => ({
+                id: uuidv4(), // ID unik
+                name: allergy,
+            }));
+
+        if (newAllergies.length === 0) {
+            return res.status(400).json({ message: "No new allergies to add" });
         }
 
-        // Buat objek alergi baru dengan ID unik
-        const newAllergy = {
-            id: crypto.randomUUID(), // Membuat ID unik
-            name: allergy,
-        };
-
-        // Tambahkan alergi baru ke array allergies
-        existingAllergies.push(newAllergy);
+        // Tambahkan alergi baru ke array
+        const updatedAllergies = [...existingAllergies, ...newAllergies];
 
         // Update data pengguna dengan alergi baru
         await userDocRef.update({
-            allergies: existingAllergies,
+            allergies: updatedAllergies,
         });
 
         res.status(200).json({
-            message: "Allergy added successfully",
+            message: "Allergies added successfully",
             userId: userId,
-            allergy: newAllergy,
+            allergies: updatedAllergies,
         });
     } catch (error) {
-        console.error("Error adding allergy:", error);
-        res.status(500).json({ message: "Failed to add allergy", error: error.message });
+        console.error("Error adding allergies:", error);
+        res.status(500).json({ message: "Failed to add allergies", error: error.message });
     }
 };
 
@@ -237,4 +242,4 @@ const scanFood = async (req, res) => {
 };
 
 // Ekspor fungsi untuk digunakan di routes
-module.exports = { updateUserAllergies, scanFood, addUserAllergy, deleteUserAllergy, showUserAllergy};
+module.exports = { updateUserAllergies, scanFood, addUserAllergies, deleteUserAllergy, showUserAllergy};
