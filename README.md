@@ -162,19 +162,19 @@ You will need:
 ## Branch Structure
 
 - **Machine-Learning Branch**:
-  - **dataset/**: Folder ini berisi dataset yang digunakan untuk melatih model, dengan kategori makanan Indonesia yang telah dikelompokkan.
-  - **model/**: Folder ini menyimpan model yang telah dilatih, dengan file sebagai berikut:
-    - `MobileNetV2_V.2.h5`: Model dengan format Keras untuk pelatihan lebih lanjut atau evaluasi.
-    - `MobileNetV2_V.2.tflite`: Model yang telah dikonversi ke format TensorFlow Lite untuk integrasi ke aplikasi mobile.
-    - `MobileNetV2_V.2.zip`: Arsip file yang berisi model dalam format `.bin` dan `.json` untuk integrasi cloud (TensorFlow.js).
-  - **foodlergic_classification.ipynb**: Notebook utama untuk pelatihan model klasifikasi, yang mencakup preprocessing, pelatihan, dan evaluasi.
-  - **fork_of_food_classification.ipynb**: Versi prototipe dari notebook pelatihan awal sebelum dilakukan pembersihan dan optimasi.
+  - **dataset/**: This folder contains the dataset used to train the model, with categorized Indonesian food categories.
+  - **model/**: This folder stores the trained models, with the following files:
+    - `MobileNetV2_V.2.h5`: Model in Keras format for further training or evaluation.
+    - `MobileNetV2_V.2.tflite`: Model converted to TensorFlow Lite format for mobile app integration.
+    - `MobileNetV2_V.2.zip`: Archive file containing the model in .bin and .json formats for cloud integration (TensorFlow.js).
+  - **foodlergic_classification.ipynb**: Main notebook for classification model training, including preprocessing, training, and evaluation.
+  - **fork_of_food_classification.ipynb**: Prototype version of the initial training notebook before cleanup and optimization.
 
-- **Cloud-Computing Branch** (dapat ditambahkan jika ada):
-  - Fokus pada integrasi API berbasis Flask dan hosting model di Google Cloud Platform.
+- **Cloud-Computing Branch**:
+  - Focuses on Hapi-based API integration and model hosting on Google Cloud Platform.
 
-- **Mobile-Development Branch** (dapat ditambahkan jika ada):
-  - Mengandung kode sumber aplikasi Android untuk integrasi TFLite.
+- **Mobile-Development Branch**:
+  - Contains Android application source code for TFLite integration.
 
 ---
 
