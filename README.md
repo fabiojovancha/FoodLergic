@@ -1,7 +1,8 @@
 # FoodLergic: AI-Based Food Allergy Identification
 
 ## Our Team
-Bangkit Capstone Team ID : 242 - PS527 Here is our team Capstone Product Based repository for Bangkit Batch 2 2024 Capstone project. Our team consist of 1 Mobile Development, 3 Machine Learning, and 2 Cloud Computing.
+Bangkit Capstone Team ID : C242 - PS527 Here is our team Capstone Product Based repository for Bangkit Batch 2 2024 Capstone project. Our team consist of 1 Mobile Development, 3 Machine Learning, and 2 Cloud Computing.
+
 | Name                                 | Bangkit-ID      | Learning Path       | 
 |--------------------------------------|-----------------|---------------------|
 | Michael Kuswanto                     | M243B4KY2486    | Machine Learning    | 
@@ -21,10 +22,15 @@ FoodLergic is an AI-powered mobile application designed to help individuals with
 3. [Technology Stack](#technology-stack)
 4. [Dataset](#dataset)
 5. [Model Architecture](#model-architecture)
-6. [Setup and Installation](#setup-and-installation)
-7. [Usage](#usage)
-8. [Future Development](#future-development)
-9. [Acknowledgments](#acknowledgments)
+6. [Prerequisites](#prerequisites)
+7. [Setup and Replication Guide](#setup-and-replication-guide)
+   - [Google Colab Instructions](#google-colab-instructions)
+   - [Mobile Integration (TFLite)](#mobile-integration-tflite)
+   - [Cloud Computing Integration (TF.js)](#cloud-computing-integration-tfjs)
+8. [Branch Structure](#branch-structure)
+9. [Usage](#usage)
+10. [Future Improvements](#future-improvements)
+11. [Acknowledgments](#acknowledgments)
 
 ---
 
@@ -36,7 +42,7 @@ Food allergies are a growing global concern, affecting millions of individuals. 
 
 ## Features
 
-- **Food Classification**: Recognizes 12 common Indonesian food categories, such as *rendang*, *sate*, and *gado-gado*.
+- **Food Classification**: Recognizes Indonesian food categories, such as *rendang*, *sate*, and *onde-onde*.
 - **Allergen Detection**: Alerts users about potential allergens based on their profile.
 - **Mobile Integration**: Offers real-time detection with on-device predictions.
 - **Cloud API**: Enables scalability and seamless updates for model improvements.
@@ -47,7 +53,7 @@ Food allergies are a growing global concern, affecting millions of individuals. 
 ## Technology Stack
 
 - **Frontend**: Kotlin (Mobile Application)
-- **Backend**: JavaScript (REST API)
+- **Backend**: Hapi (REST API)
 - **Machine Learning**: TensorFlow, Keras (Model Training and Deployment)
 - **Cloud Infrastructure**: Google Cloud Platform (API Hosting)
 
@@ -71,3 +77,128 @@ Food allergies are a growing global concern, affecting millions of individuals. 
   - REST API supports larger batch processing and continuous learning.
 
 ---
+
+## Prerequisites
+
+You will need:
+- Google Colab for training and testing.
+- Basic Python libraries pre-installed in Colab:
+  - `tensorflow`, `numpy`, `matplotlib`
+- Optional: Android Studio (for mobile integration) or a cloud platform like AWS/GCP (for TF.js).
+
+---
+
+## Setup and Replication Guide
+
+### Google Colab Instructions
+
+1. **Clone the Repository**:
+   - Save the GitHub repository to your Google Drive:
+     ```bash
+     git clone https://github.com/fabiojovancha/FoodLergic.git
+     ```
+   - Upload the `FoodLergic` folder to your Google Drive.
+
+2. **Load the Dataset**:
+   - Use the provided dataset or upload your own dataset.
+   - Organize your dataset in this structure:
+     ```
+     /data
+       /class_1
+       /class_2
+       /class_3
+       /class_4
+       ...
+     ```
+
+3. **Open the Colab Notebook**:
+   - Navigate to the `FoodLergic` folder in your drive.
+   - Open `foodLergic_classification.ipynb` in Google Colab.
+
+4. **Train the Model**:
+   - Run all cells in the notebook to train the CNN-based MobileNetV2 model.
+   - The trained model (.h5, .tflite, and .zip archive formats) will be saved in the /model folder.
+   - The archive file (.zip) includes .bin and .json files for TensorFlow.js cloud integration.
+     
+5. **Optional**:
+   - Fine-tuning: You can modify the model parameters in the relevant cells to improve performance.
+   - Dataset Experimentation: Upload new datasets to see how the model adapts to new data.
+
+---
+
+### Mobile Integration (TFLite)
+
+1. **Convert the Model to TFLite**:
+   - Use the provided conversion script in Colab:
+     ```python
+     converter = tf.lite.TFLiteConverter.from_saved_model('path_to_saved_model')
+     tflite_model = converter.convert()
+     with open('model.tflite', 'wb') as f:
+         f.write(tflite_model)
+     ```
+
+2. **Integrate into Mobile App**:
+   - Replace the default `model.tflite` file in the mobile project.
+   - Use Android Studio to rebuild and install the app.
+
+---
+
+### Cloud Computing Integration (TF.js)
+
+1. **Convert the Model to TF.js**:
+   - In Colab, use the TensorFlow.js converter:
+     ```bash
+     !tensorflowjs_converter --input_format=tf_saved_model \
+       path_to_saved_model \
+       path_to_tfjs_model
+     ```
+
+2. **Deploy to Cloud**:
+   - Host the converted model on a cloud platform like GCP or AWS.
+   - Update your application to fetch predictions from the cloud-hosted model.
+
+---
+
+## Branch Structure
+
+- **Machine-Learning Branch**:
+  - **dataset/**: Folder ini berisi dataset yang digunakan untuk melatih model, dengan kategori makanan Indonesia yang telah dikelompokkan.
+  - **model/**: Folder ini menyimpan model yang telah dilatih, dengan file sebagai berikut:
+    - `MobileNetV2_V.2.h5`: Model dengan format Keras untuk pelatihan lebih lanjut atau evaluasi.
+    - `MobileNetV2_V.2.tflite`: Model yang telah dikonversi ke format TensorFlow Lite untuk integrasi ke aplikasi mobile.
+    - `MobileNetV2_V.2.zip`: Arsip file yang berisi model dalam format `.bin` dan `.json` untuk integrasi cloud (TensorFlow.js).
+  - **foodlergic_classification.ipynb**: Notebook utama untuk pelatihan model klasifikasi, yang mencakup preprocessing, pelatihan, dan evaluasi.
+  - **fork_of_food_classification.ipynb**: Versi prototipe dari notebook pelatihan awal sebelum dilakukan pembersihan dan optimasi.
+
+- **Cloud-Computing Branch** (dapat ditambahkan jika ada):
+  - Fokus pada integrasi API berbasis Flask dan hosting model di Google Cloud Platform.
+
+- **Mobile-Development Branch** (dapat ditambahkan jika ada):
+  - Mengandung kode sumber aplikasi Android untuk integrasi TFLite.
+
+---
+
+## Usage
+- Open the FoodLergic mobile app.
+- Capture or upload a photo of a dish.
+- Review detected ingredients and allergen alerts.
+
+---
+
+## Future Improvements
+
+- Expand the dataset to include more diverse food categories.
+- Enhance allergen detection accuracy with additional user feedback.
+- Improve mobile UI for better usability.
+
+---
+
+## Acknowledgments
+
+This project was made possible with support from:
+- **Bangkit Program**: Providing resources, guidance, and inspiration.
+- **Google Cloud Platform (GCP)**: Hosting and scalability for REST API integration.
+- **TensorFlow**: Powering our machine learning model for accurate predictions.
+- **Keras**: Simplifying the process of building and training neural networks.
+
+Special thanks to our mentors, peers, and contributors who helped make this project a reality.
