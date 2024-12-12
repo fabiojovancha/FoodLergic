@@ -1,7 +1,7 @@
 # FoodLergic: AI-Based Food Allergy Identification
 
 ## Our Team
-### Bangkit Capstone Team ID : 242 - PS527 Here is our team Capstone Product Based repository for Bangkit Batch 2 2024 Capstone project. Our team consist of 1 Mobile Development, 3 Machine Learning, and 2 Cloud Computing.
+Bangkit Capstone Team ID : 242 - PS527 Here is our team Capstone Product Based repository for Bangkit Batch 2 2024 Capstone project. Our team consist of 1 Mobile Development, 3 Machine Learning, and 2 Cloud Computing.
 | Name                                 | Bangkit-ID      | Learning Path       | 
 |--------------------------------------|-----------------|---------------------|
 | Michael Kuswanto                     | M243B4KY2486    | Machine Learning    | 
