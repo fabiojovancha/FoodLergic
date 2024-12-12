@@ -171,9 +171,9 @@ You will need:
   - **fork_of_food_classification.ipynb**: Prototype version of the initial training notebook before cleanup and optimization.
 
 - **Cloud-Computing Branch**:
-- **Src/**: This folder contains the backend code that integrates the machine learning models and api needed by mobile developers.
-- **Dockerfile/**: Dockerfile has a script function to build a docker image that is used to deploy the backend and machine learning models.
-- Focuses on Hapi-based API integration and model hosting on Google Cloud Platform.
+   - **Src/**: This folder contains the backend code that integrates the machine learning models and api needed by mobile developers.
+   - **Dockerfile/**: Dockerfile has a script function to build a docker image that is used to deploy the backend and machine learning models.
+   - Focuses on Hapi-based API integration and model hosting on Google Cloud Platform.
 
 - **Mobile-Development Branch**:
   - Contains Android application source code for TFLite integration.
