@@ -47,7 +47,7 @@ Food allergies are a growing global concern, affecting millions of individuals. 
 ## Technology Stack
 
 - **Frontend**: Kotlin (Mobile Application)
-- **Backend**: Hapi (REST API)
+- **Backend**: JavaScript (REST API)
 - **Machine Learning**: TensorFlow, Keras (Model Training and Deployment)
 - **Cloud Infrastructure**: Google Cloud Platform (API Hosting)
 
