@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">FoodLergic</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="Selamat_Datang_di_FoodLergic">Selamat datang di FoodLergic</string>
+    <string name="belum_punya_akun_RegisterNow">Belum Punya Akun ?</string>
+    <string name="email">EMAIL</string>
+    <string name="password">PASSWORD</string>
+    <string name="login">LOGIN</string>
+    <string name="title_signup_page">Sign Up Now</string>
+    <string name="name">Nama</string>
+    <string name="signup">SignUp</string>
+    <string name="RegisterNow">RegisterNow!</string>
+    <string name="Scan">Scan My Food</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Galerry</string>
+    <string name="Check">Check</string>
+    <string name="Predict">Predict</string>
+    <string name="Result" />
+    <string name="fill_all_fields" />
+    <string name="loading" />
+    <string name="registration_success">akun anda telah teregister</string>
+    <string name="registration_failed">akun anda belum terregister</string>
+    <string name="email_exists">email</string>
+    <string name="login_success">Login Berhasil</string>
+    <string name="login_failed">Login Gagal</string>
+    <string name="network_error">jaringan bermasalah</string>
+    <string name="user_profile">User Profile</string>
+    <string name="my_lergic">MyLergic</string>
+    <string name="profile_image">My Profile\n</string>
+    <string name="alergic">Title</string>
+</resources>
