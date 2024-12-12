@@ -1,18 +1,19 @@
 # FoodLergic: AI-Based Food Allergy Identification
 
-FoodLergic is an AI-powered mobile application designed to help individuals with food allergies make safer food choices. By leveraging machine learning and computer vision, the app identifies food items and cross-references their ingredients with the user's allergy profile to detect potential allergens.
-
 ## Our Team
 
-| Name                       | Bangkit-ID    | Learning Path       | 
-|----------------------------|---------------|---------------------|
-| Michael Kuswanto           | M243B4KY2486    | Machine Learning         | 
-| Adam Asyari                | M253B4KY0067   | Machine Learning            | 
+| Name                                 | Bangkit-ID      | Learning Path       | 
+|--------------------------------------|-----------------|---------------------|
+| Michael Kuswanto                     | M243B4KY2486    | Machine Learning    | 
+| Adam Asyari                          | M253B4KY0067    | Machine Learning    | 
 | I Gusti Bagus Sutha Arianata Putra   | M014B4KY1825    | Machine Learning    |
-| Fabio            | M295DSY0165   | Machine Learning    |
-| Thommy Octa Alpama Putra   | C068DSX3149   | Cloud Computing     |
-| Aulia Anggraini            | C068DSY3238   | Cloud Computing     |
+| Rezon Handry Gunawan                 | A243B4KY3797    | Mobile Development  |
+| Elrama Ferdian Pratama               | C318B4KY1250    | Cloud Computing     |
+| Fabio Michael Jovancha               | C243B4KY1308    | Cloud Computing     |
 ---
+
+## About This Project
+FoodLergic is an AI-powered mobile application designed to help individuals with food allergies make safer food choices. By leveraging machine learning and computer vision, the app identifies food items and cross-references their ingredients with the user's allergy profile to detect potential allergens.
 
 ## Table of Contents
 1. [Background](#background)
