@@ -23,12 +23,13 @@ const updateUserAllergies = async (request, h) => {
     }
 };
 
-const addUserAllergy = async (request, h) => {
+// Fungsi untuk menambahkan beberapa alergi sekaligus
+const addUserAllergies = async (request, h) => {
     try {
-        const { userId, allergy } = request.payload;
+        const { userId, allergies } = request.payload;
 
-        if (!userId || !allergy) {
-            return h.response({ message: "User ID and allergy name are required" }).code(400);
+        if (!userId || !Array.isArray(allergies)) {
+            return h.response({ message: "User ID and a list of allergies are required" }).code(400);
         }
 
         const userDocRef = db.collection("users").doc(userId);
@@ -41,33 +42,35 @@ const addUserAllergy = async (request, h) => {
         const userData = userDoc.data();
         const existingAllergies = userData.allergies || [];
 
-        const isAllergyExists = existingAllergies.some((a) => a.name === allergy);
-        if (isAllergyExists) {
-            return h.response({ message: "Allergy already added" }).code(400);
+        const newAllergies = allergies
+            .filter((allergy) => !existingAllergies.some((a) => a.name === allergy))
+            .map((allergy) => ({
+                id: uuidv4(),
+                name: allergy,
+            }));
+
+        if (newAllergies.length === 0) {
+            return h.response({ message: "No new allergies to add" }).code(400);
         }
 
-        const newAllergy = {
-            id: crypto.randomUUID(),
-            name: allergy,
-        };
-
-        existingAllergies.push(newAllergy);
+        const updatedAllergies = [...existingAllergies, ...newAllergies];
 
         await userDocRef.update({
-            allergies: existingAllergies,
+            allergies: updatedAllergies,
         });
 
         return h.response({
-            message: "Allergy added successfully",
+            message: "Allergies added successfully",
             userId,
-            allergy: newAllergy,
+            allergies: updatedAllergies,
         }).code(200);
     } catch (error) {
-        console.error("Error adding allergy:", error);
-        return h.response({ message: "Failed to add allergy", error: error.message }).code(500);
+        console.error("Error adding allergies:", error);
+        return h.response({ message: "Failed to add allergies", error: error.message }).code(500);
     }
 };
 
+// Fungsi untuk menghapus alergi pengguna
 const deleteUserAllergy = async (request, h) => {
     try {
         const { userId, allergyId } = request.payload;
@@ -107,9 +110,10 @@ const deleteUserAllergy = async (request, h) => {
     }
 };
 
+// Fungsi untuk menampilkan alergi pengguna
 const showUserAllergy = async (request, h) => {
     try {
-        const { userId } = request.payload;
+        const { userId } = request.params;  // Ambil userId dari request.params, bukan request.payload
 
         if (!userId) {
             return h.response({ message: "User ID is required" }).code(400);
@@ -136,6 +140,7 @@ const showUserAllergy = async (request, h) => {
     }
 };
 
+// Fungsi untuk memindai makanan dan mencocokkan alergi
 const scanFood = async (request, h) => {
     try {
         const { userId, foodName } = request.payload;
@@ -158,7 +163,7 @@ const scanFood = async (request, h) => {
 
         const foodData = foodSnapshot.docs[0].data();
         const matchingAllergies = foodData.ingredients.filter((ingredient) =>
-            userAllergies.includes(ingredient)
+            userAllergies.some((allergy) => allergy.name === ingredient)
         );
 
         if (matchingAllergies.length > 0) {
@@ -180,9 +185,8 @@ const scanFood = async (request, h) => {
 
 module.exports = {
     updateUserAllergies,
-    addUserAllergy,
+    addUserAllergies,
     deleteUserAllergy,
     showUserAllergy,
     scanFood,
 };
-

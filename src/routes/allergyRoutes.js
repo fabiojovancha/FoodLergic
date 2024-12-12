@@ -1,47 +1,31 @@
-const express = require("express");
-const router = express.Router();
-const { updateUserAllergies, scanFood, addUserAllergy, deleteUserAllergy, showUserAllergy } = require("../controllers/allergyController");
+const { updateUserAllergies, scanFood, addUserAllergies, deleteUserAllergy, showUserAllergy } = require("../controllers/allergyController");
 
-// Rute untuk menambah pengguna
-
-
-// router.put("/:userId/allergies", updateUserAllergies);
-
-// // Rute untuk memindai makanan dan mencari alergi
-// router.post("/scan-food", scanFood);
-
-// // Rute untuk menambahkan alergi ke pengguna
-
-// router.post("/:userId/allergies", addUserAllergy);
-// router.get("/show/:userId/allergies", showUserAllergy)
-// router.delete("/delete", deleteUserAllergy);
-
-module.exports = [
+const allergyRoutes = [
     {
         method: 'PUT',
         path: '/{userId}/allergies',
-        handler: updateUserAllergies,
+        handler: updateUserAllergies,  // Memperbarui alergi pengguna
     },
-
     {
         method: 'POST',
         path: '/scan-food',
-        handler: scanFood, 
+        handler: scanFood,  // Memindai makanan untuk alergi
     },
-
     {
         method: 'POST',
         path: '/{userId}/allergies',
-        handler: addUserAllergy, 
+        handler: addUserAllergies,  // Menambahkan alergi baru
     },
     {
         method: 'GET',
         path: '/show/{userId}/allergies',
-        handler: showUserAllergy, 
+        handler: showUserAllergy,  // Menampilkan alergi pengguna
     },
     {
-        method: 'DELETE',
+        method: 'POST',
         path: '/delete',
-        handler: deleteUserAllergy, 
+        handler: deleteUserAllergy,  // Menghapus alergi pengguna
     },
 ];
+
+module.exports = allergyRoutes;
