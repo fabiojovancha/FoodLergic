@@ -1,0 +1,12 @@
+ayam
+coklat
+gandum
+ikan
+kacang_kedelai
+kacang_tanah
+kerang
+sapi
+susu
+telur
+udang
+wijen
