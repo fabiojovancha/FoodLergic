@@ -1,6 +1,6 @@
 // Import db dari simpanData.js
-const simpanData = require("../services/simpanData");
-const getdata = require('../services/getdata');
+const { simpanData } = require("../services/simpanData");
+const getAllData = require('../services/getData');
 const predictClassification = require('../services/inferenceService');
 const crypto = require('crypto');
 
@@ -99,7 +99,6 @@ const addUserAllergies = async (req, res) => {
             return res.status(404).json({ message: "User not found" });
         }
 
-        // Update alergi pengguna
         await userDoc.update({
             allergies: db.FieldValue.arrayUnion(...allergies),
         });
@@ -159,33 +158,38 @@ const scanFood = async (req, res) => {
 };
 
 async function postPredictHandler(request, h) {
-    const { image } = request.payload;
+    const { image, userId } = request.payload; 
+    if (!userId) {
+        throw new Error('User ID is missing');
+    }
+
     const { model } = request.server.app;
-   
-    const { label, suggestion } = await predictClassification(model, image);
+
+    const { label, suggestion } = await predictClassification(model, image, userId);
     const id = crypto.randomUUID();
     const createdAt = new Date().toISOString();
-   
+
     const data = {
-      "id": id,
-      "result": label,
-      "suggestion": suggestion,
-      "createdAt": createdAt
-    }
-   
+        "id": id,
+        "result": label,
+        "suggestion": suggestion,
+        "createdAt": createdAt
+    };
+
     await simpanData(id, data);
-  
+
     const response = h.response({
-      status: 'success',
-      message: 'Model is predicted successfully',
-      data
-    })
+        status: 'success',
+        message: 'Model is predicted successfully',
+        data
+    });
     response.code(201);
     return response;
-  }
-   
+}
+
+
   async function postPredictHistoriesHandler(request, h) {
-    const allData = await getdata();
+    const allData = await getAllData();
     
     const formatAllData = [];
     allData.forEach(doc => {
@@ -210,7 +214,6 @@ async function postPredictHandler(request, h) {
   }
   
 
-// Ekspor fungsi untuk digunakan di server.js
 module.exports = { 
     addUser, 
     getUsers, 

@@ -5,8 +5,12 @@ const { Firestore } = require('@google-cloud/firestore');
     keyFilename: './serviceAccountKey.json',
   });
 
-  async function storeData(id,data) {
-    const pred = db.collection('predictions');
-    return pred.doc(id).set(data);
+  async function simpanData(id,data) {
+    const predictCollection = db.collection('predictions');
+    return predictCollection.doc(id).set(data);
   }
-module.exports = db, storeData;
+  
+module.exports = {
+  db, 
+  simpanData,
+};

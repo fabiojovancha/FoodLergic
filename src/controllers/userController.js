@@ -1,16 +1,16 @@
-const db = require("../services/simpanData");
+const { db } = require("../services/simpanData");
 
-  const addUser = async (req, res) => {
+const addUser = async (request, h) => {
     try {
-        const { username, email } = req.body;
+        const { username, email } = request.payload;
 
         if (!username || !email) {
-            return res.status(400).json({ message: "Username and email are required" });
+            return h.response({ status: "fail", message: "Username and email are required" }).code(400);
         }
 
         const existingUserSnapshot = await db.collection("users").where("email", "==", email).get();
         if (!existingUserSnapshot.empty) {
-            return res.status(400).json({ message: "Email already exists" });
+            return h.response({ status: "fail", message: "Email already exists" }).code(400);
         }
 
         const newUser = {
@@ -22,23 +22,28 @@ const db = require("../services/simpanData");
 
         const docRef = await db.collection("users").add(newUser);
 
-        res.status(201).json({
+        return h.response({
+            status: "success",
             message: "User added successfully",
             id: docRef.id,
             data: newUser,
-        });
+        }).code(201);
     } catch (error) {
         console.error("Error adding user:", error);
-        res.status(500).json({ message: "Failed to add user", error: error.message });
+        return h.response({
+            status: "fail",
+            message: "Failed to add user",
+            error: error.message,
+        }).code(500);
     }
 };
 
-  const getUsers = async (req, res) => {
+const getUsers = async (request, h) => {
     try {
         const usersSnapshot = await db.collection("users").get();
 
         if (usersSnapshot.empty) {
-            return res.status(404).json({ message: "No users found" });
+            return h.response({ status: "fail", message: "No users found" }).code(404);
         }
 
         const users = usersSnapshot.docs.map((doc) => ({
@@ -46,44 +51,51 @@ const db = require("../services/simpanData");
             ...doc.data(),
         }));
 
-        res.status(200).json(users);
+        return h.response({ status: "success", data: users }).code(200);
     } catch (error) {
         console.error("Error fetching users:", error);
-        res.status(500).json({ message: "Error fetching users", error: error.message });
+        return h.response({
+            status: "fail",
+            message: "Error fetching users",
+            error: error.message,
+        }).code(500);
     }
 };
-  
-const getUserById = async (req, res) => {
+
+const getUserById = async (request, h) => {
     try {
-        const { userId } = req.body
+        const { userId } = request.params;
 
         if (!userId) {
-            return res.status(400).json({ message: "User ID is required" });
+            return h.response({ status: "fail", message: "User ID is required" }).code(400);
         }
 
         const userDocRef = db.collection("users").doc(userId);
         const userDoc = await userDocRef.get();
 
         if (!userDoc.exists) {
-            return res.status(404).json({ message: "User not found" });
+            return h.response({ status: "fail", message: "User not found" }).code(404);
         }
 
         const userData = { id: userDoc.id, ...userDoc.data() };
 
-        res.status(200).json(userData);
+        return h.response({ status: "success", data: userData }).code(200);
     } catch (error) {
         console.error("Error fetching user by ID:", error);
-        res.status(500).json({ message: "Error fetching user", error: error.message });
+        return h.response({
+            status: "fail",
+            message: "Error fetching user",
+            error: error.message,
+        }).code(500);
     }
 };
 
-const updateUser = async (req, res) => {
+const updateUser = async (request, h) => {
     try {
-        const { userId } = req.body; 
-        const { username, email, allergies } = req.body; 
+        const { userId, username, email, allergies } = request.payload;
 
         if (!userId) {
-            return res.status(400).json({ message: "User ID is required" });
+            return h.response({ status: "fail", message: "User ID is required" }).code(400);
         }
 
         const updatedData = {};
@@ -92,27 +104,32 @@ const updateUser = async (req, res) => {
         if (allergies) updatedData.allergies = allergies;
 
         if (Object.keys(updatedData).length === 0) {
-            return res.status(400).json({ message: "No valid fields to update" });
+            return h.response({ status: "fail", message: "No valid fields to update" }).code(400);
         }
 
         const userDocRef = db.collection("users").doc(userId);
 
         const userDoc = await userDocRef.get();
         if (!userDoc.exists) {
-            return res.status(404).json({ message: "User not found" });
+            return h.response({ status: "fail", message: "User not found" }).code(404);
         }
 
         await userDocRef.update(updatedData);
 
         const updatedUser = { id: userDoc.id, ...updatedData };
 
-        res.status(200).json({
+        return h.response({
+            status: "success",
             message: "User updated successfully",
             data: updatedUser,
-        });
+        }).code(200);
     } catch (error) {
         console.error("Error updating user:", error);
-        res.status(500).json({ message: "Failed to update user", error: error.message });
+        return h.response({
+            status: "fail",
+            message: "Failed to update user",
+            error: error.message,
+        }).code(500);
     }
 };
   
